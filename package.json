@@ -1,0 +1,9 @@
+{
+  "name": "pstds-proto",
+  "version": "1.0.0",
+  "description": "PSTDS service thrift protocol.",
+  "author": "rbk.money",
+  "private": true,
+  "license": "Apache 2.0",
+  "homepage": "https://github.com/rbkmoney/pstds-proto#readme"
+}
