@@ -1,7 +1,7 @@
 #!groovy
 // -*- mode: groovy -*-
 
-build('cds-proto', 'docker-host') {
+build('pstds-proto', 'docker-host') {
     checkoutRepo()
     loadBuildUtils()
 
