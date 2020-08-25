@@ -165,7 +165,7 @@ struct Event {
 }
 
 union Change {
-    1: StatusChanged change
+    1: StatusChanged status_changed
 }
 
 struct StatusChanged {
