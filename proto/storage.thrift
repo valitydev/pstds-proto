@@ -34,6 +34,16 @@ struct ExpDate {
     2: required i16 year
 }
 
+union TokenRevision {
+    1: Latest latest
+    2: Revision revision
+}
+
+struct Latest{}
+struct Revision {
+    1: required i32 revision
+}
+
 struct PaymentSystemTokenData {
     /**
     * Токен МПС:
@@ -80,6 +90,7 @@ struct PaymentSystemTokenData {
 struct PaymentSystemToken {
     1: required Token token
     2: required PaymentSystem payment_system
+    3: required Revision revision
 }
 
 struct PutPaymentSystemTokenResult {
@@ -109,11 +120,11 @@ exception InvalidPaymentSystemToken {
 service Storage {
 
     /** Получить данные платёжного токена */
-    PaymentSystemToken GetPaymentSystemToken(1: Token token)
+    PaymentSystemTokenData GetPaymentSystemTokenData(1: PaymentSystemToken token)
         throws (1: PaymentSystemTokenNotFound not_found)
 
     /** Получить данные активного платёжного токена по токену банковской карты */
-    PaymentSystemToken GetPaymentSystemTokenByBankCardToken(1: Token token)
+    PaymentSystemTokenData GetPaymentSystemTokenByBankCardToken(1: PaymentSystemToken token)
         throws (1: PaymentSystemTokenNotFound not_found)
 
     /** Сохранить платёжный токен */
