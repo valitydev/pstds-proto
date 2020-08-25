@@ -131,7 +131,59 @@ service Storage {
     PutPaymentSystemTokenResult PutPaymentSystemToken(1: PaymentSystemTokenData payment_system_token)
         throws (1: InvalidPaymentSystemToken invalid)
 
-    /** Обновить статус платёжного токена */
-    void UpdatePaymentSystemTokenStatus(1: PaymentSystemToken token, 2: TokenStatus status)
+    /** Обновить статус платёжного токена
+    * Параметры:
+    * - token - параметры токена, ревизия - latest
+    * - updated_status - статус токена, полученный от МПС
+    * - updated_at - время обновления статуса у МПС
+    **/
+    void UpdatePaymentSystemTokenStatus(
+        1: PaymentSystemToken token,
+        2: TokenStatus updated_status,
+        3: Timestamp updated_at
+    )
         throws (1: PaymentSystemTokenNotFound not_found)
+}
+
+/// Event sink
+
+typedef i64 EventID
+typedef i32 SequenceID
+typedef string Timestamp
+
+struct EventRange {
+    1: optional EventID after
+    2: required i32 limit
+}
+
+exception NoLastEvent {}
+
+struct Event {
+    1: required SequenceID sequence
+    2: required Timestamp occured_at
+    3: required Change change
+}
+
+union Change {
+    1: StatusChanged change
+}
+
+struct StatusChanged {
+    1: required TokenStatus new_status
+}
+
+struct SinkEvent {
+    1: required EventID id
+    2: required Timestamp created_at
+    4: required Event payload
+}
+
+service EventSink {
+
+    list<SinkEvent> GetEvents (1: EventRange range)
+        throws ()
+
+    EventID GetLastEventID ()
+        throws (1: NoLastEvent ex1)
+
 }
