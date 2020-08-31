@@ -4,7 +4,6 @@ namespace erlang pstds_event
 include "base.thrift"
 
 struct Event {
-    1: required base.SequenceID sequence
     2: required base.Timestamp occured_at
     3: required Change change
 }
