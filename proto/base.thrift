@@ -1,3 +1,6 @@
+namespace java com.rbkmoney.pstds.event
+namespace erlang pstds_event
+
 typedef i64 EventID
 typedef i32 SequenceID
 typedef string Timestamp
