@@ -15,10 +15,9 @@ union Change {
 }
 
 struct TokenCreated {
-    1: base.PaymentSystemToken token
+    1: base.PaymentSystemTokenData token_data
 }
 
 struct StatusChanged {
-    1: required base.PaymentSystemToken token
     2: required base.TokenStatus new_status
 }

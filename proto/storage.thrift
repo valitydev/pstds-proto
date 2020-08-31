@@ -3,60 +3,6 @@ namespace erlang pstds
 
 include "base.thrift"
 
-typedef string PaymentToken
-typedef string EnrollmentID
-
-/** Дата экспирации */
-struct ExpDate {
-    /** Месяц 1..12 */
-    1: required i8 month
-    /** Год 2015..∞ */
-    2: required i16 year
-}
-
-struct PaymentSystemTokenData {
-    /**
-    * Токен МПС:
-    * - VISA: vProvisionedTokenID
-    * - MASTERCARD: tokenUniqueReference
-    * - NSPKMIR: tokenNumber
-    **/
-    1: required PaymentToken tokenID
-
-    /**
-    * Энролмент МПС:
-    * - VISA: vPanEnrollmentID
-    * - MASTERCARD: panUniqueReference
-    * - NSPKMIR: subscriptionID (?)
-    **/
-    2: required EnrollmentID enrollmentID
-
-    /**
-    * Идентификатор МПС
-    **/
-    3: required base.PaymentSystem payment_system
-
-    /**
-    * Статус токена
-    **/
-    4: required base.TokenStatus status
-
-    /**
-    * Токен банковской карты, для которого выписан токен МПС
-    **/
-    5: required base.Token bank_card_token
-
-    /**
-    * Дата экспирации токена
-    **/
-    6: optional ExpDate exp_date
-
-    /**
-    * Уникальный идентификатор карты в МПС (аналоги и замена PAN)
-    **/
-    7: optional string pan_account_reference
-}
-
 struct PaymentSystemTokenResult {
     1: required base.PaymentSystemToken payment_system_token
 }
@@ -84,15 +30,15 @@ exception InvalidPaymentSystemToken {
 service Storage {
 
     /** Получить данные платёжного токена */
-    PaymentSystemTokenData GetPaymentSystemTokenData(1: base.PaymentSystemToken token)
+    base.PaymentSystemTokenData GetPaymentSystemTokenData(1: base.PaymentSystemToken token)
         throws (1: PaymentSystemTokenNotFound not_found)
 
     /** Получить данные активного платёжного токена по токену банковской карты */
-    PaymentSystemTokenData GetPaymentSystemTokenByBankCardToken(1: base.Token token)
+    base.PaymentSystemTokenData GetPaymentSystemTokenByBankCardToken(1: base.Token token)
         throws (1: PaymentSystemTokenNotFound not_found)
 
     /** Сохранить платёжный токен */
-    PaymentSystemTokenResult PutPaymentSystemToken(1: PaymentSystemTokenData payment_system_token)
+    PaymentSystemTokenResult PutPaymentSystemToken(1: base.PaymentSystemTokenData payment_system_token)
         throws (1: InvalidPaymentSystemToken invalid)
 
     /** Обновить статус платёжного токена
