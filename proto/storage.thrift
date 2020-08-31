@@ -57,7 +57,7 @@ struct PaymentSystemTokenData {
     7: optional string pan_account_reference
 }
 
-struct PutPaymentSystemTokenResult {
+struct PaymentSystemTokenResult {
     1: required base.PaymentSystemToken payment_system_token
 }
 
@@ -92,7 +92,7 @@ service Storage {
         throws (1: PaymentSystemTokenNotFound not_found)
 
     /** Сохранить платёжный токен */
-    PutPaymentSystemTokenResult PutPaymentSystemToken(1: PaymentSystemTokenData payment_system_token)
+    PaymentSystemTokenResult PutPaymentSystemToken(1: PaymentSystemTokenData payment_system_token)
         throws (1: InvalidPaymentSystemToken invalid)
 
     /** Обновить статус платёжного токена
