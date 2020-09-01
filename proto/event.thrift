@@ -18,5 +18,5 @@ struct TokenCreated {
 }
 
 struct StatusChanged {
-    2: required base.TokenStatus new_status
+    1: required base.TokenStatus new_status
 }

@@ -2,7 +2,6 @@ namespace java com.rbkmoney.pstds.base
 namespace erlang pstds_base
 
 typedef i64 EventID
-typedef i32 SequenceID
 typedef string Timestamp
 typedef string Token
 typedef string PaymentToken
