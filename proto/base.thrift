@@ -64,7 +64,7 @@ struct PaymentSystemTokenData {
     * - MASTERCARD: tokenUniqueReference
     * - NSPKMIR: tokenNumber
     **/
-    1: required PaymentToken tokenID
+    1: required PaymentToken token_id
 
     /**
     * Энролмент МПС:
@@ -72,7 +72,7 @@ struct PaymentSystemTokenData {
     * - MASTERCARD: panUniqueReference
     * - NSPKMIR: subscriptionID (?)
     **/
-    2: required EnrollmentID enrollmentID
+    2: required EnrollmentID enrollment_id
 
     /**
     * Идентификатор МПС
