@@ -7,6 +7,8 @@ typedef string Timestamp
 typedef string Token
 typedef string PaymentToken
 typedef string EnrollmentID
+typedef string PanAccountReference
+typedef i64 TokenRevision
 
 /**
 * Поддерживаемые платёжные системы
@@ -20,37 +22,20 @@ enum PaymentSystem {
 /**
 * Статус токена МПС
 **/
-enum TokenStatus {
-    inactive
-    active
-    suspended
-    deleted
+union TokenStatus {
+    1: InactiveToken inactive
+    2: ActiveToken active
+    3: SuspendedToken suspended
+    4: DeletedToken deleted
 }
 
-/**
-* Ревизия токена
-**/
-struct Latest{}
-struct Revision {
-    1: required i32 revision
-}
-
-union TokenRevision {
-    1: Latest latest
-    2: Revision revision
-}
-
-/**
-* Токен платёжной системы
-**/
-struct PaymentSystemToken {
-    1: required Token token
-    2: required PaymentSystem payment_system
-    3: required Revision revision
-}
+struct InactiveToken{}
+struct ActiveToken {}
+struct SuspendedToken {}
+struct DeletedToken {}
 
 /** Дата экспирации */
-struct ExpDate {
+struct TokenExpDate {
     /** Месяц 1..12 */
     1: required i8 month
     /** Год 2015..∞ */
@@ -75,7 +60,7 @@ struct PaymentSystemTokenData {
     2: required EnrollmentID enrollment_id
 
     /**
-    * Идентификатор МПС
+    * Платёжная система
     **/
     3: required PaymentSystem payment_system
 
@@ -85,17 +70,12 @@ struct PaymentSystemTokenData {
     4: required TokenStatus status
 
     /**
-    * Токен банковской карты, для которого выписан токен МПС
-    **/
-    5: required Token bank_card_token
-
-    /**
     * Дата экспирации токена
     **/
-    6: optional ExpDate exp_date
+    5: optional TokenExpDate exp_date
 
     /**
     * Уникальный идентификатор карты в МПС (аналоги и замена PAN)
     **/
-    7: optional string pan_account_reference
+    6: optional PanAccountReference pan_account_reference
 }

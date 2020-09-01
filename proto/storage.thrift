@@ -1,10 +1,10 @@
 namespace java com.rbkmoney.pstds.storage
-namespace erlang pstds
+namespace erlang pstds_storage
 
 include "base.thrift"
 
 struct PaymentSystemTokenResult {
-    1: required base.PaymentSystemToken payment_system_token
+    1: required base.Token payment_system_token
 }
 
 exception InvalidCardData {
@@ -19,14 +19,11 @@ exception InvalidPaymentSystemToken {
 
 /**
  * Интерфейс для приложений
- *
- * При недоступности (отсутствии или залоченности) кейринга сервис сигнализирует об этом с помощью
- * woody-ошибки `Resource Unavailable`.
  */
 service Storage {
 
     /** Получить данные платёжного токена */
-    base.PaymentSystemTokenData GetPaymentSystemTokenData(1: base.PaymentSystemToken token)
+    base.PaymentSystemTokenData GetPaymentSystemTokenData(1: base.Token token, 2: base.TokenRevision revision)
         throws (1: PaymentSystemTokenNotFound not_found)
 
     /** Получить данные активного платёжного токена по токену банковской карты */
@@ -34,7 +31,10 @@ service Storage {
         throws (1: PaymentSystemTokenNotFound not_found)
 
     /** Сохранить платёжный токен */
-    PaymentSystemTokenResult PutPaymentSystemToken(1: base.PaymentSystemTokenData payment_system_token)
+    PaymentSystemTokenResult PutPaymentSystemToken(
+        1: base.PaymentSystemTokenData payment_system_token,
+        2: base.Token bank_card_token
+    )
         throws (1: InvalidPaymentSystemToken invalid)
 
     /** Обновить статус платёжного токена
@@ -44,10 +44,14 @@ service Storage {
     * - updated_at - время обновления статуса у МПС
     **/
     void UpdatePaymentSystemTokenStatus(
-        1: base.PaymentSystemToken token,
+        1: base.Token token,
         2: base.TokenStatus updated_status,
         3: base.Timestamp updated_at
     )
         throws (1: PaymentSystemTokenNotFound not_found)
+
+    base.TokenRevision GetTokenRevision(1: base.Token token)
+        throws (1: PaymentSystemTokenNotFound not_found)
+
 }
 

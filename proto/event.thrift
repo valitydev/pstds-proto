@@ -3,9 +3,9 @@ namespace erlang pstds_event
 
 include "base.thrift"
 
-struct Event {
-    2: required base.Timestamp occured_at
-    3: required Change change
+struct TimestampedChange {
+    1: required base.Timestamp occured_at
+    2: required Change change
 }
 
 union Change {
@@ -14,7 +14,7 @@ union Change {
 }
 
 struct TokenCreated {
-    1: base.PaymentSystemTokenData token_data
+    1: required base.PaymentSystemTokenData token_data
 }
 
 struct StatusChanged {
