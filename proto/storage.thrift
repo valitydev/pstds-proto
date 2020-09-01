@@ -11,10 +11,6 @@ exception InvalidCardData {
     1: optional string reason
 }
 
-exception CardDataNotFound {}
-
-exception SessionDataNotFound {}
-
 exception PaymentSystemTokenNotFound{}
 
 exception InvalidPaymentSystemToken {
