@@ -20,20 +20,7 @@ build('pstds-proto', 'docker-host') {
       sh "make wc_compile"
     }
 
-    // Erlang
-    runStage('Generate Erlang lib') {
-      sh "make wc_release-erlang"
-    }
-    if (env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('epic/')) {
-      runStage('Publish Erlang lib') {
-        dir("_release/erlang") {
-          gitUtils.push(commitMsg: "Generated from commit: $COMMIT_ID \n\non $BRANCH_NAME in $RBK_REPO_URL\n\nChanges:\n$COMMIT_MSG",
-                  files: "*", branch: "release/erlang/$BRANCH_NAME", orphan: true)
-        }
-      }
-    }
+    env.skipSonar = 'true'
+    pipeJavaProto()
   }
-
-  env.skipSonar = 'true'
-  pipeJavaProto()
 }
