@@ -1,4 +1,4 @@
-namespace java com.rbkmoney.pstds.storage
+namespace java dev.vality.pstds.storage
 namespace erlang pstds_storage
 
 include "base.thrift"

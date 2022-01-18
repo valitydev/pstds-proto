@@ -1,4 +1,4 @@
-namespace java com.rbkmoney.pstds.event
+namespace java dev.vality.pstds.event
 namespace erlang pstds_event
 
 include "base.thrift"
