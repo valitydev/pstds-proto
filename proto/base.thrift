@@ -1,4 +1,4 @@
-namespace java com.rbkmoney.pstds.base
+namespace java dev.vality.pstds.base
 namespace erlang pstds_base
 
 typedef i64 EventID
